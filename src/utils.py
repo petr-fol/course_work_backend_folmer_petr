@@ -1,5 +1,9 @@
+from classes import Receipt
+import json
+
+
 def get_operations():
-    import json
+
     with open('../operations/operations.json', encoding='utf-8') as file:
         operations_ = json.load(file)
 
@@ -35,7 +39,7 @@ def is_correct_operation(operation):
 
 
 def operations_as_objects(operations):
-    from classes import Receipt
+
     operations_objects = []
     for operation in operations:
 
