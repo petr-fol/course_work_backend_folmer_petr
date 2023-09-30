@@ -1,5 +1,5 @@
 class Receipt:
-    def __init__(self, id_, state_, date_, amount_, name_, code_, description_, from_, to_):
+    def __init__(self, id_, state_, date_, amount_=None, name_=None, code_=None, description_=None, from_=None, to_=None):
         self.id = id_
         self.state = state_
         self.date = date_
