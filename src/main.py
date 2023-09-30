@@ -8,7 +8,7 @@ def main():
     operations_objects_list = operations_as_objects(operations)
 
     five_execute_operations = get_five_execute_operations(operations_objects_list)
-
+    print("\n")
     for operation in five_execute_operations:
         if print_receipt(operation) is not None:
             print(print_receipt(operation))

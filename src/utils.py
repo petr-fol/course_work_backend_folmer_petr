@@ -91,10 +91,11 @@ def get_card_description(sender, recipient=False):
 def get_correct_card_number(card_number_str, sender_or_recipient_hide="sender"):
     number = get_card_number(card_number_str)
     if sender_or_recipient_hide == "sender":
-        number = number.replace(number[6:12], "******")
         if len(number) == 16:
+            number = number.replace(number[6:12], "******")
             number_list_str = [number[0:4], number[4:8], number[8:12], number[12:]]
         if len(number) == 20:
+            number = number.replace(number[6:16], "**********")
             number_list_str = [number[0:4], number[4:8], number[8:12], number[12:16], number[16:20]]
         return ' '.join(number_list_str)
 
@@ -121,14 +122,12 @@ def print_receipt(receipt):
 
     print(f"{date} {desc}")
     print(f"{card_desc_sender} {card_number_sender} {card_desc_recipient} {card_number_recipient}")
-    print(f"{amount} {currency}")
+    print(f"{amount} {currency}\n")
 
 
 def get_five_execute_operations(operations_objects_list):
     execute_operations = []
-    for i in range(0, 5):
-        print(execute_operations)
-        for operation in operations_objects_list:
-            if operation.state == "EXECUTED":
-                execute_operations.append(operation)
-    return execute_operations
+    for operation in operations_objects_list:
+        if operation.state == "EXECUTED":
+            execute_operations.append(operation)
+    return execute_operations[0:5]
