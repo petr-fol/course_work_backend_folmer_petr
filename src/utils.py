@@ -3,19 +3,26 @@ import json
 
 
 def get_operations():
-
+    """
+    Получает операции из JSON-файла.
+    Returns:
+        list: Список операций.
+    """
     with open('../operations/operations.json', encoding='utf-8') as file:
         operations_ = json.load(file)
-
-        # for operation in operations_:
-        #     new_operation = {
-        #         "id_": operation["id"],
-        #     }
 
     return operations_
 
 
 def check_correct_operation(operation):
+    """
+    Проверяет, является ли операция корректной.
+    Args:
+        operation (dict): Операция.
+
+    Returns:
+        dict or None: Операция, если она корректна, иначе None.
+    """
     if operation:
         return operation
     else:
@@ -23,6 +30,14 @@ def check_correct_operation(operation):
 
 
 def is_correct_operation(operation):
+    """
+    Проверяет, является ли операция корректной.
+    Args:
+        operation (dict): Операция.
+
+    Returns:
+        bool: True, если операция корректна, иначе False.
+    """
     try:
         check_correct_operation(operation["id"])
         check_correct_operation(operation["state"])
@@ -39,12 +54,17 @@ def is_correct_operation(operation):
 
 
 def operations_as_objects(operations):
+    """
+    Преобразует операции в объекты класса Receipt.
+    Args:
+        operations (list): Список операций.
 
+    Returns:
+        list: Список объектов Receipt.
+    """
     operations_objects = []
     for operation in operations:
-
         if is_correct_operation(operation):
-
             check_id = check_correct_operation(operation["id"])
             check_state = check_correct_operation(operation["state"])
             check_date = check_correct_operation(operation["date"])
@@ -61,6 +81,15 @@ def operations_as_objects(operations):
 
 
 def get_correct_date(date_time, date_or_time="date"):
+    """
+    Получает корректную дату или время из строки даты-времени.
+    Args:
+        date_time (str): Строка даты-времени.
+        date_or_time (str): "date" для получения даты, "time" для получения времени.
+
+    Returns:
+        str or None: Корректная дата или время, либо None.
+    """
     date_time_list = date_time.split('T')
     date_list = date_time_list[0].split('-')
     time_list = date_time_list[1].split(':')
@@ -74,6 +103,14 @@ def get_correct_date(date_time, date_or_time="date"):
 
 
 def get_card_number(sender_or_recipient):
+    """
+    Получает номер карты из строки отправителя или получателя.
+    Args:
+        sender_or_recipient (str): Строка отправителя или получателя.
+
+    Returns:
+        str: Номер карты.
+    """
     number_str = ""
     for symbol in sender_or_recipient:
         if symbol.isdigit():
@@ -82,6 +119,15 @@ def get_card_number(sender_or_recipient):
 
 
 def get_card_description(sender, recipient=False):
+    """
+    Получает описание карты из строки отправителя или получателя.
+    Args:
+        sender (str): Строка отправителя.
+        recipient (bool): Флаг, указывающий, является ли получатель.
+
+    Returns:
+        str: Описание карты.
+    """
     if recipient is False:
         for symbol in sender:
             desc_card = ""
@@ -93,6 +139,15 @@ def get_card_description(sender, recipient=False):
 
 
 def get_correct_card_number(card_number_str, sender_or_recipient_hide="sender"):
+    """
+    Получает корректный номер карты с заменойсимволов на "*", чтобы скрыть часть номера.
+    Args:
+        card_number_str (str): Строка с номером карты.
+        sender_or_recipient_hide (str): "sender" для скрытия номера отправителя, "recipient" для скрытия номера получателя.
+
+    Returns:
+        str: Корректный номер карты.
+    """
     number = get_card_number(card_number_str)
     if sender_or_recipient_hide == "sender":
         if len(number) == 16:
@@ -105,13 +160,18 @@ def get_correct_card_number(card_number_str, sender_or_recipient_hide="sender"):
 
     elif sender_or_recipient_hide == "recipient":
         number = number.replace(number[-6:-4], "**")
-        number = number_list_str = [number[-6:-4], number[-4:]]
+        number_list_str = [number[-6:-4], number[-4:]]
         return ''.join(number_list_str)
     else:
         return None
 
 
 def print_receipt(receipt):
+    """
+    Выводит информацию о чеке.
+    Args:
+        receipt (Receipt): Объект чека.
+    """
     amount = receipt.re_amount()
     date = get_correct_date(receipt.re_date())
     desc = receipt.re_description()
@@ -130,8 +190,17 @@ def print_receipt(receipt):
 
 
 def get_five_execute_operations(operations_objects_list):
+    """
+    Получает пять выполненных операций из списка операций-объектов.
+    Args:
+        operations_objects_list (list): Список операций-объектов.
+
+    Returns:
+        list: Список пяти выполненных операций.
+    """
     execute_operations = []
     for operation in operations_objects_list:
         if operation.state == "EXECUTED":
             execute_operations.append(operation)
     return execute_operations[0:5]
+

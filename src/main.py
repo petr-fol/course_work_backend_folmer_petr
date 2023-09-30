@@ -2,12 +2,16 @@ from utils import *
 
 
 def main():
+    """
+    Основная функция программы.
+    """
+    operations = get_operations()  # Получение операций
 
-    operations = get_operations()
+    operations_objects_list = operations_as_objects(operations)  # Преобразование операций в объекты
 
-    operations_objects_list = operations_as_objects(operations)
-
+    # Получение пяти операций для выполнения
     five_execute_operations = get_five_execute_operations(operations_objects_list)
+
     print("\n")
     for operation in five_execute_operations:
         if print_receipt(operation) is not None:
