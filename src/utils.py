@@ -1,7 +1,13 @@
 def get_operations():
     import json
-    with open('../operations/operations.json', 'r') as file:
+    with open('../operations/operations.json', encoding='utf-8') as file:
         operations_ = json.load(file)
+
+        # for operation in operations_:
+        #     new_operation = {
+        #         "id_": operation["id"],
+        #     }
+
     return operations_
 
 
@@ -13,12 +19,12 @@ def operations_as_objects(operations):
         operations_objects.append(Receipt(operation["id"],
                                           operation["state"],
                                           operation["date"],
-                                          operation["amount"],
-                                          operation["currency"],
-                                          operation["currency_code"],
+                                          operation["operationAmount"]["amount"],
+                                          operation["operationAmount"]["currency"]["name"],
+                                          operation["operationAmount"]["currency"]["code"],
                                           operation["description"],
-                                          operation["sender"],
-                                          operation["recipient"]
+                                          operation["from"],
+                                          operation["to"],
                                           ))
 
     return operations_objects
@@ -84,3 +90,12 @@ def print_receipt(receipt):
     print(f"{date} {desc}")
     print(f"{card_desc_sender} {card_number_sender} {card_desc_recipient} {card_number_recipient}")
     print(f"{amount} {currency}.")
+
+
+def get_five_execute_operations(operations_objects_list):
+    execute_operations = []
+    while len(operations_objects_list) < 5:
+        for operation in operations_objects_list:
+            if operation.re_state() == "execute":
+                execute_operations.append(operation)
+    return execute_operations

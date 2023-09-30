@@ -1,14 +1,14 @@
 class Receipt:
-    def __init__(self, id_, state, date, amount, name, code, description, from_, to):
+    def __init__(self, id_, state_, date_, amount_, name_, code_, description_, from_, to_):
         self.id = id_
-        self.state = state
-        self.date = date
-        self.amount = amount
-        self.currency = name
-        self.currency_code = code
-        self.description = description
+        self.state = state_
+        self.date = date_
+        self.amount = amount_
+        self.currency = name_
+        self.currency_code = code_
+        self.description = description_
         self.sender = from_
-        self.recipient = to
+        self.recipient = to_
 
     def __str__(self):
         return (f'Receipt {self.id} from {self.sender}'
