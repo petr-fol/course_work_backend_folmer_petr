@@ -38,11 +38,23 @@ class Receipt:
     def re_currency_code(self):
         return self.currency_code
 
-    def re_desc(self):
-        return self.desc
+    def re_description(self):
+        return self.description
 
     def re_sender(self):
         return self.sender
 
     def re_recipient(self):
         return self.recipient
+
+
+class Bank_card_number:
+    def __init__(self, description, number):
+        self.description = description
+        self.number = number
+
+    def re_description(self):
+        return self.description
+
+    def re_number(self):
+        return self.number

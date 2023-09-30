@@ -1,4 +1,4 @@
-from utils import get_operations
+from utils import *
 
 operations = get_operations()
 
