@@ -129,8 +129,8 @@ def get_card_description(sender, recipient=False):
         str: Описание карты.
     """
     if recipient is False:
+        desc_card = ""
         for symbol in sender:
-            desc_card = ""
             if not symbol.isdigit():
                 desc_card += symbol
         return desc_card
@@ -143,17 +143,19 @@ def get_correct_card_number(card_number_str, sender_or_recipient_hide="sender"):
     Получает корректный номер карты с заменойсимволов на "*", чтобы скрыть часть номера.
     Args:
         card_number_str (str): Строка с номером карты.
-        sender_or_recipient_hide (str): "sender" для скрытия номера отправителя, "recipient" для скрытия номера получателя.
+        sender_or_recipient_hide (str): "sender" для скрытия номера отправителя,
+                                        "recipient" для скрытия номера получателя.
 
     Returns:
         str: Корректный номер карты.
     """
     number = get_card_number(card_number_str)
     if sender_or_recipient_hide == "sender":
+        number_list_str = []
         if len(number) == 16:
             number = number.replace(number[6:12], "******")
             number_list_str = [number[0:4], number[4:8], number[8:12], number[12:]]
-        if len(number) == 20:
+        elif len(number) == 20:
             number = number.replace(number[6:16], "**********")
             number_list_str = [number[0:4], number[4:8], number[8:12], number[12:16], number[16:20]]
         return ' '.join(number_list_str)
