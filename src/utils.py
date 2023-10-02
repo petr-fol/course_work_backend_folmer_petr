@@ -1,8 +1,9 @@
-from classes import Receipt
+from src.classes import Receipt
 import json
 
 
 def get_operations():
+
     """
     Получает операции из JSON-файла.
     Returns:
@@ -92,12 +93,9 @@ def get_correct_date(date_time, date_or_time="date"):
     """
     date_time_list = date_time.split('T')
     date_list = date_time_list[0].split('-')
-    time_list = date_time_list[1].split(':')
     sort_date_list = [date_list[2], date_list[1], date_list[0]]
     if date_or_time == 'date':
         return '.'.join(sort_date_list)
-    elif date_or_time == 'time':
-        return time_list
     else:
         return None
 
@@ -128,22 +126,24 @@ def get_card_description(sender, recipient=False):
     Returns:
         str: Описание карты.
     """
+    global desc_card
     if recipient is False:
+        desc_card = ""
         for symbol in sender:
-            desc_card = ""
             if not symbol.isdigit():
                 desc_card += symbol
-        return desc_card
+        return desc_card.strip()
     else:
         return "-> Счет"
 
 
 def get_correct_card_number(card_number_str, sender_or_recipient_hide="sender"):
     """
-    Получает корректный номер карты с заменойсимволов на "*", чтобы скрыть часть номера.
+    Получает корректный номер карты с заменой символов на "*", чтобы скрыть часть номера.
     Args:
         card_number_str (str): Строка с номером карты.
-        sender_or_recipient_hide (str): "sender" для скрытия номера отправителя, "recipient" для скрытия номера получателя.
+        sender_or_recipient_hide (str): "sender" для скрытия номера отправителя,
+                                        "recipient" для скрытия номера получателя.
 
     Returns:
         str: Корректный номер карты.
@@ -153,7 +153,7 @@ def get_correct_card_number(card_number_str, sender_or_recipient_hide="sender"):
         if len(number) == 16:
             number = number.replace(number[6:12], "******")
             number_list_str = [number[0:4], number[4:8], number[8:12], number[12:]]
-        if len(number) == 20:
+        elif len(number) == 20:
             number = number.replace(number[6:16], "**********")
             number_list_str = [number[0:4], number[4:8], number[8:12], number[12:16], number[16:20]]
         return ' '.join(number_list_str)
@@ -184,9 +184,9 @@ def print_receipt(receipt):
     card_number_recipient = get_correct_card_number(get_card_number(receipt.recipient), "recipient")
     card_desc_recipient = get_card_description(get_card_number(receipt.sender), True)
 
-    print(f"{date} {desc}")
-    print(f"{card_desc_sender} {card_number_sender} {card_desc_recipient} {card_number_recipient}")
-    print(f"{amount} {currency}\n")
+    return f"{date} {desc}" \
+           f"{card_desc_sender} {card_number_sender} {card_desc_recipient} {card_number_recipient}" \
+           f"{amount} {currency}\n"
 
 
 def get_five_execute_operations(operations_objects_list):
