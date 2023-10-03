@@ -5,7 +5,7 @@ class Receipt:
     """
 
     def __init__(self, id_, state_, date_, amount_=None, name_=None,
-                 code_=None, description_=None, from_=None, to_=None):
+                 code_=None, description_=None, from_=None, to_=None, date_value_=None):
         """
         Инициализирует объект Receipt с заданными атрибутами.
 
@@ -19,6 +19,7 @@ class Receipt:
             description_ (str, optional): Описание чека. По умолчанию None.
             from_ (str, optional): Отправитель чека. По умолчанию None.
             to_ (str, optional): Получатель чека. По умолчанию None.
+            date_value_ (str, optional): Контрольная сумма для сортировки чеков. По умолчанию None.
         """
 
         self.id = id_
@@ -30,6 +31,7 @@ class Receipt:
         self.description = description_
         self.sender = from_
         self.recipient = to_
+        self.date_value = date_value_
 
     def __str__(self):
         """
